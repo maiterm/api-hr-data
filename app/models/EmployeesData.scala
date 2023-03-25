@@ -2,6 +2,7 @@ package models
 
 import play.api.libs.json._
 import models.Employees
+import java.time.{LocalDate, ZonedDateTime}
 
 /**
  * Created by MRM
@@ -11,10 +12,11 @@ import models.Employees
 case class EmployeesData(
   id: Int,
   name: Option[String] = None,
-  datetime: Option[String] = None,
+  datetime: Option[LocalDate] = None,
   departmentId: Option[Int] = None,
   jobId: Option[Int] = None) {
 
+  def dataToModel: Employees = Employees(id, name, datetime, departmentId, jobId)
 
   def create: Employees = Employees.create(id, name, datetime, departmentId, jobId)
 

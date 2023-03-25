@@ -1,11 +1,12 @@
 package models
 
 import scalikejdbc._
+import java.time.{LocalDate, ZonedDateTime}
 
 case class Employees(
   id: Int,
   name: Option[String] = None,
-  datetime: Option[String] = None,
+  datetime: Option[LocalDate] = None,
   departmentId: Option[Int] = None,
   jobId: Option[Int] = None) {
 
@@ -70,7 +71,7 @@ object Employees extends SQLSyntaxSupport[Employees] {
   def create(
     id: Int,
     name: Option[String] = None,
-    datetime: Option[String] = None,
+    datetime: Option[LocalDate] = None,
     departmentId: Option[Int] = None,
     jobId: Option[Int] = None)(implicit session: DBSession = autoSession): Employees = {
     withSQL {

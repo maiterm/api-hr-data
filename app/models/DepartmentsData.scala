@@ -11,6 +11,8 @@ case class DepartmentsData(
   id: Int,
   department: String) {
 
+  def dataToModel: Departments  = Departments(id, department)
+
   def create: Departments = Departments.create(id, department)
 
   def update: Int => Departments =

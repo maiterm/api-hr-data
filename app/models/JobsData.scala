@@ -11,6 +11,7 @@ case class JobsData(
   id: Int,
   job: String) {
 
+  def dataToModel: Jobs  = Jobs(id, job)
   def create: Jobs = Jobs.create(id, job)
 
   def update: Int => Jobs =

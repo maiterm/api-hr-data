@@ -14,10 +14,10 @@ class EmployeesService {
         case None =>  throw new IllegalArgumentException("The employee does not exist")
         }
     }
-    
+
     def createInBatch (employeesDataList: List[EmployeesData]): List[EmployeesData]  = {
-        val employeesList: List[Employees] = employeesDataList.map(_.create)
+        val employeesList: List[Employees] = employeesDataList.map(_.dataToModel)
         Employees.batchInsert(employeesList)
-        employeesList
-    }
+        employeesDataList
+    } 
 }
