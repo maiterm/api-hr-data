@@ -22,4 +22,13 @@ class EmployeesController @Inject()(val controllerComponents: ControllerComponen
      
   }
 
+  def createEmployee = Action(parse.json) { implicit request =>
+    request.body.validate[List[EmployeesData]].fold(
+      errors => BadRequest(errorJson(errors)),      
+      employeesDataList => { employeesService.createInBatch(employeesDataList)
+      }
+      Ok("Employees created successfully")
+      )
+    }
+
 }
