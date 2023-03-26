@@ -15,10 +15,9 @@ class DepartmentsService {
         }
     }
     
-    def createInBatch (departmentsDataList: List[DepartmentsData]): List[DepartmentsData]  = {
+    def createInBatch (departmentsDataList: List[DepartmentsData]): List[Int]  = {
 
         val departmentsList: List[Departments] = departmentsDataList.map(_.dataToModel)
         Departments.batchInsert(departmentsList)
-        departmentsDataList
     }
 }

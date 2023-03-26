@@ -6,6 +6,7 @@ import play.api.libs.json.Json
 import play.api.mvc._
 import utils.JsonUtils
 import javax.inject.Inject
+import java.sql.BatchUpdateException
 
 /**
  * Created by MRM
@@ -24,12 +25,15 @@ class JobsController @Inject()(val controllerComponents: ControllerComponents, v
 
   def createJobs = Action(parse.json) { implicit request =>
     request.body.validate[List[JobsData]].fold(
-       errors => BadRequest(errorsJson(errors)),      
+       errors => BadRequest(errorsJson(errors)),  
       jobsDataList => {
-        jobsService.createInBatch(jobsDataList)
-        val resultJson = Json.obj("message" -> "Jobs created successfully")
-        Ok(resultJson)
-        
+        try{
+          val numberOfInserts = jobsService.createInBatch(jobsDataList)
+          Ok(okJson(s"Jobs created successfully. ${numberOfInserts.sum} is the ampunt of inserted jobs."))
+        }catch{
+          case e : BatchUpdateException => Conflict(postErrorJson(e.getMessage()))
+        }        
+
       }
     )
   }

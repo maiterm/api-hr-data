@@ -10,9 +10,13 @@ GET     /api                           controllers.HomeController.index()
 GET     /api/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # Jobs
-# GET     /api/jobs               controllers.JobsController.get(id:Int)
-# POST     /assets/jobs               controllers.Assets.versioned(path="/public", file: Asset)
+ GET     /api/jobs/:id              controllers.JobsController.getJob(id:Int)
+POST     /api/jobs               controllers.JobsController.createJobs
+
+# Departments
+ GET     /api/departments/:id              controllers.DepartmentsController.getDepartment(id:Int)
+POST     /api/departments               controllers.DepartmentsController.createDepartments
 
 # Employees
 GET     /api/employees/:id              controllers.EmployeesController.getEmployee(id:Int)
-POST     /api/employees/               controllers.EmployeesController.CreateEmployees(list:List)
+POST     /api/employees/               controllers.EmployeesController.createEmployees
