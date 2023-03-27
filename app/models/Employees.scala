@@ -1,14 +1,14 @@
 package models
 
 import scalikejdbc._
-import java.time.{LocalDate, ZonedDateTime}
+import java.time.{LocalDate, ZonedDateTime,OffsetDateTime}
 
 case class Employees(
   id: Int,
-  name: Option[String] = None,
-  datetime: Option[LocalDate] = None,
-  departmentId: Option[Int] = None,
-  jobId: Option[Int] = None) {
+  name: String ,
+  datetime: OffsetDateTime ,
+  departmentId: Int ,
+  jobId: Int ) {
 
   def save()(implicit session: DBSession = Employees.autoSession): Employees = Employees.save(this)(session)
 
@@ -69,11 +69,11 @@ object Employees extends SQLSyntaxSupport[Employees] {
   }
 
   def create(
-    id: Int,
-    name: Option[String] = None,
-    datetime: Option[LocalDate] = None,
-    departmentId: Option[Int] = None,
-    jobId: Option[Int] = None)(implicit session: DBSession = autoSession): Employees = {
+  id: Int,
+  name: String ,
+  datetime: OffsetDateTime ,
+  departmentId: Int ,
+  jobId: Int ) (implicit session: DBSession = autoSession): Employees = {
     withSQL {
       insert.into(Employees).namedValues(
         column.id -> id,

@@ -10,8 +10,8 @@ class JobsService {
 
     def find(id: Int): JobsData  = {
         Jobs.find(id) match {
-        case Some(employee ) => JobsData.fromJobs(employee)
-        case None =>  throw new IllegalArgumentException("The employee does not exist")
+        case Some(job ) => JobsData.fromJobs(job)
+        case None =>  throw new IllegalArgumentException("The job does not exist")
         }
     }
     

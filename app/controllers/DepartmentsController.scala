@@ -25,11 +25,11 @@ class DepartmentsController @Inject()(val controllerComponents: ControllerCompon
 
   def createDepartments = Action(parse.json) { implicit request =>
     request.body.validate[List[DepartmentsData]].fold(
-       errors => BadRequest(errorsJson(errors)),      
+       errors => BadRequest(errorJson(errors)),      
       departmentsDataList => {
         try{        
           val numberOfInserts = departmentsService.createInBatch(departmentsDataList)
-          Ok(okJson(s"All the departments (${numberOfInserts.sum}) has been created successfully."))
+          Ok(okJson(s"All the departments (${numberOfInserts.sum}) have been created successfully."))
         }catch{   
           case e : BatchUpdateException => Conflict(postErrorJson(e.getMessage()))
         }         

@@ -15,9 +15,8 @@ class EmployeesService {
         }
     }
 
-    def createInBatch (employeesDataList: List[EmployeesData]): List[EmployeesData]  = {
+    def createInBatch (employeesDataList: List[EmployeesData]): List[Int]  = {
         val employeesList: List[Employees] = employeesDataList.map(_.dataToModel)
         Employees.batchInsert(employeesList)
-        employeesDataList
     } 
 }

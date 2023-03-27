@@ -10,8 +10,8 @@ class DepartmentsService {
 
     def find(id: Int): DepartmentsData  = {
         Departments.find(id) match {
-        case Some(employee ) => DepartmentsData.fromDepartments(employee)
-        case None =>  throw new IllegalArgumentException("The employee does not exist")
+        case Some(department ) => DepartmentsData.fromDepartments(department)
+        case None =>  throw new IllegalArgumentException("The department does not exist")
         }
     }
     
