@@ -16,10 +16,17 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc-config"           % "4.0.0",
   "org.scalikejdbc" %% "scalikejdbc-play-dbapi-adapter" % "2.8.0-scalikejdbc-3.5",
   "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.8.0-scalikejdbc-3.5",
+  "ch.qos.logback"  %  "logback-classic"   % "1.2.3"
 )
 libraryDependencies += "org.scalikejdbc" %% "scalikejdbc-play-fixture" % "2.8.0-scalikejdbc-3.5"
 
 libraryDependencies +="com.microsoft.sqlserver" % "mssql-jdbc" % "9.4.0.jre11"
+
+libraryDependencies ++= Seq(
+"org.apache.spark" %% "spark-core" % "3.2.1",
+"org.apache.spark" %% "spark-sql" % "3.2.1",
+"org.apache.spark" % "spark-avro_2.13" % "3.2.1"
+)
 //
 //libraryDependencies += "com.typesafe.play" %% "play-jdbc" % "2.8.8"
 
@@ -32,3 +39,4 @@ dependencyOverrides += "org.scala-lang.modules" %% "scala-parser-combinators" % 
 
 // Adds additional packages into conf/routes
 // play.sbt.routes.RoutesKeys.routesImport += "com.mrm.binders._"
+//resolvers += "Maven Central" at "https://repo1.maven.org/maven2"
