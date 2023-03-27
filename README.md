@@ -1,6 +1,6 @@
 # api-hr-data
 
-Rest API service in scala with playframework to comunicate with a data base of HR.
+Rest API service in scala with playframework to comunicate with an Azure Data Base of HR.
 
 
 ## Installation
@@ -15,11 +15,11 @@ Rest API service in scala with playframework to comunicate with a data base of H
   
 
 ### POST  /api/jobs              
-**Descripción**
+**Description**
 Create multiple jobs in a batch. The request body should be a JSON array of objects, each representing a job.
 
 
-**Parámetros**
+**Parameters**
 - `id`: int (required)
 - `job`: string (required)
 
@@ -38,29 +38,74 @@ Create multiple jobs in a batch. The request body should be a JSON array of obje
 ]
 ```
 
-#### Errors
 
-The API may return the following errors in addition to the ones listed above:
-
-- `400 BadRequest`: when the body is not the required.
-- `409 Conflict`: when the API reconized in the request at least one id that already exists in the data base.
 
 
 
 ### POST  /api/departments   
-**Parámetros**
+
+**Description**
+Create multiple departments in a batch. The request body should be a JSON array of objects, each representing a departments.
+
+
+**Parameters**
 - `id`: int (required)
 - `department`: string (required)
 
-
+#### Request Body
+```json
+[
+  {
+    "id": 1,
+    "department": "Software"
+  },
+  {
+    "id": 2,
+    "department": "Data"
+  } 
+]
+```
        
-### POST  /api/employees/         
-**Parámetros**
+### POST  /api/employees/       
+
+**Description**
+Create multiple employees in a batch. The request body should be a JSON array of objects, each representing a employee.
+
+
+**Parameters**
 - `id`: int (required)
 - `name`: string (required)
 - `datetime`: datetime (required)
-- `job_id`: int (required)
-- `department_id`: int (required)
+- `job_id`: int (required) - foreign key
+- `department_id`: int (required) - foreign key
+
+#### Request Body
+```json
+[
+{
+    "id": 1,
+    "name": "Harold Vogt",
+    "datetime": "2021-11-06T23:48:42-03:00",
+    "departmentId": 2,
+    "jobId": 96
+},
+{
+    "id": 5,
+    "name": "Gretna Lording",
+    "datetime": "2021-10-10T19:22:17-03:00",
+    "departmentId": 6,
+    "jobId": 80
+}
+]
+```
+
+
+### Errors
+
+The API may return the following errors in addition to the ones listed above:
+
+- `400 BadRequest`: when the body is not the required or invalid.
+- `409 Conflict`: when the API reconized in the request at least one id that already exists in the data base, or a foreign key does not exist.
 
 ### GET  /api/departments/:id 
 ### GET  /api/employees/:id  
