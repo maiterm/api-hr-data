@@ -23,3 +23,7 @@ POST     /api/employees/               controllers.EmployeesController.createEmp
 
 # Backup 
 GET     /api/backup/:tableName              controllers.BackupController.backupFromTableToAvro(tableName:String)
+
+# Metrics 
+GET     /api/metrics/hiredbyquarter              controllers.MetricsController.getHiredByQuarter()
+GET     /api/metrics/hiredbydepartment              controllers.MetricsController.getHiredByDepartment()
