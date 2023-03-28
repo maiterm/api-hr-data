@@ -107,6 +107,62 @@ The API may return the following errors in addition to the ones listed above:
 - `400 BadRequest`: when the body is not the required or invalid.
 - `409 Conflict`: when the API reconized in the request at least one id that already exists in the data base, or a foreign key does not exist.
 
+
+
+### GET     /api/metrics/hiredbyquarter  
+Number of employees hired for each job and department in 2021 divided by quarter, ordered alphabetically by department and job. 
+
+#### Response example
+```json
+{
+    "HiredByQuarter": [
+        {
+            "department": "Accounting",
+            "job": "Account Representative IV",
+            "Q1": 1,
+            "Q2": 0,
+            "Q3": 0,
+            "Q4": 0
+        },
+        {
+            "department": "Accounting",
+            "job": "Actuary",
+            "Q1": 0,
+            "Q2": 1,
+            "Q3": 0,
+            "Q4": 0
+        }
+  ]
+}
+```
+
+### GET     /api/metrics/hiredbydepartment
+
+List of inds, name and number of employees hired of each department that hired more employees than the mean of employees hired in 2021, order by the descending number of employees hired. 
+
+#### Response example
+```json
+{
+    "HiredByDepartment": [
+        {
+            "id": 8,
+            "department": "Support",
+            "hired": 248
+        },
+        {
+            "id": 5,
+            "department": "Engineering",
+            "hired": 242
+        },
+        {
+            "id": 6,
+            "department": "Human Resources",
+            "hired": 242
+        }
+    ]
+}
+```
+
 ### GET  /api/departments/:id 
 ### GET  /api/employees/:id  
 ### GET  /api/jobs/:id
