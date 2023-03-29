@@ -19,6 +19,8 @@ class MetricsService {
 
 
         val session = SparkSession.builder()
+            .appName("metrics")
+            .master("local[*]")
             .getOrCreate()
 
 
@@ -90,6 +92,7 @@ class MetricsService {
             val q4 = row.getAs[Long]("Q4")
             HiredByQuarterData(department, job, q1, q2, q3, q4)
         }.toList
+        session.stop()
 
         hiredByQuarterDatas
     }
@@ -101,6 +104,8 @@ class MetricsService {
 
 
         val spark = SparkSession.builder()
+            .appName("metrics")
+            .master("local[*]")
             .getOrCreate()
 
 
@@ -153,7 +158,7 @@ class MetricsService {
             val hired = row.getAs[Long]("hired").toInt
             HiredByDepartmentData(id, department, hired)
         }.toList
-
+        spark.stop()
         hiredByDepartmentDatas
 
 
