@@ -6,59 +6,32 @@ import play.api.mvc._
 import models.{Jobs,JobsData}
 import com.typesafe.config.ConfigFactory
 import models.{HiredByQuarterData,HiredByDepartmentData}
+import utils.SparkUtils
 
 
 
 /**
  * Created by MRM
  */
-class MetricsService {
+class MetricsService @Inject()(val sparkUtils : SparkUtils)  {
 
     
     def createMetricsHiredByQuarter (): List[HiredByQuarterData] = {
 
 
-        val session = SparkSession.builder()
-            .appName("metrics")
-            .master("local[*]")
-            .getOrCreate()
+        val session = sparkUtils.createSparkSession()
 
-
-
-        val config = ConfigFactory.load()
-
-        // conf database from application.conf
-        val driver = config.getString("db.default.driver")
-        val url = config.getString("db.default.url")
-        val username = config.getString("db.default.username")
-        val password = config.getString("db.default.password")
-
-        val employeesDF = session.read.format("jdbc")
-                .option("url", url)
-                .option("driver", driver)
-                .option("dbtable", "hired_employees")
-                .option("user", username)
-                .option("password", password)
-                .load()
+        val employeesDF = sparkUtils.dfFromDataBaseTable(session,"hired_employees")
         employeesDF.createOrReplaceTempView("employees")
 
-        val jobsDF = session.read.format("jdbc")
-                .option("url", url)
-                .option("driver", driver)
-                .option("dbtable", "jobs")
-                .option("user", username)
-                .option("password", password)
-                .load()     
+        val departmentsDF = sparkUtils.dfFromDataBaseTable(session,"departments")
+        departmentsDF.createOrReplaceTempView("departments")
+
+
+        val jobsDF = sparkUtils.dfFromDataBaseTable(session,"jobs")
         jobsDF.createOrReplaceTempView("jobs")
 
-        val departmentsDF = session.read.format("jdbc")
-                .option("url", url)
-                .option("driver", driver)
-                .option("dbtable", "departments")
-                .option("user", username)
-                .option("password", password)
-                .load()        
-        departmentsDF.createOrReplaceTempView("departments")
+
 
         val hiredByQuarter= session.sql(
             """SELECT 
@@ -92,6 +65,7 @@ class MetricsService {
             val q4 = row.getAs[Long]("Q4")
             HiredByQuarterData(department, job, q1, q2, q3, q4)
         }.toList
+
         session.stop()
 
         hiredByQuarterDatas
@@ -103,36 +77,13 @@ class MetricsService {
     def createMetricsHiredByDepartment (): List[HiredByDepartmentData] = {
 
 
-        val spark = SparkSession.builder()
-            .appName("metrics")
-            .master("local[*]")
-            .getOrCreate()
+        val spark = sparkUtils.createSparkSession()
 
 
-        val config = ConfigFactory.load()
-
-        // conf database from application.conf
-        val driver = config.getString("db.default.driver")
-        val url = config.getString("db.default.url")
-        val username = config.getString("db.default.username")
-        val password = config.getString("db.default.password")
-
-        val employeesDF = spark.read.format("jdbc")
-                .option("url", url)
-                .option("driver", driver)
-                .option("dbtable", "hired_employees")
-                .option("user", username)
-                .option("password", password)
-                .load()
+        val employeesDF = sparkUtils.dfFromDataBaseTable(spark,"hired_employees")
         employeesDF.createOrReplaceTempView("employees")
 
-        val departmentsDF = spark.read.format("jdbc")
-                .option("url", url)
-                .option("driver", driver)
-                .option("dbtable", "departments")
-                .option("user", username)
-                .option("password", password)
-                .load()        
+        val departmentsDF = sparkUtils.dfFromDataBaseTable(spark,"departments")
         departmentsDF.createOrReplaceTempView("departments")
 
         val hiredByDepartment = spark.sql(
@@ -158,7 +109,9 @@ class MetricsService {
             val hired = row.getAs[Long]("hired").toInt
             HiredByDepartmentData(id, department, hired)
         }.toList
+
         spark.stop()
+
         hiredByDepartmentDatas
 
 
