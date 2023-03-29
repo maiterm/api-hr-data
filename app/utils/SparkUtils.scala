@@ -4,7 +4,7 @@ package utils
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql._
 import java.util.Properties
-
+import java.sql.DriverManager
 /**
  * Created by MRM
  */
@@ -33,6 +33,16 @@ class SparkUtils {
 
     val (url, properties) = getUrlAndProperties()
     session.read.jdbc(url,tableName,properties)
+  }
+
+  def dfToDataBaseTable(  tableName: String, restoreDF :DataFrame) :  String = {
+    val (url, properties) = getUrlAndProperties()
+    val conection = DriverManager.getConnection(url, properties)
+    conection.prepareStatement(s"DROP TABLE IF EXISTS $tableName").executeUpdate()
+    conection.close()
+
+    restoreDF.write.jdbc(url,tableName,properties)
+    "Done"
   }
 
 }
