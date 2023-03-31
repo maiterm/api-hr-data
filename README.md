@@ -163,6 +163,16 @@ List of inds, name and number of employees hired of each department that hired m
 }
 ```
 
+
+### GET     /api/backup/:tableName
+
+Backup for each table, with tableName = ["employees", "jobs", "departments"] 
+
+
+### GET  /api/restore/:tableName              
+Restore for each table, with tableName =  ["employees", "jobs", "departments"] 
+
+
 ### GET  /api/departments/:id 
 ### GET  /api/employees/:id  
 ### GET  /api/jobs/:id
