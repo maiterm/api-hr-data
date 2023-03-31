@@ -29,7 +29,7 @@ class DepartmentsController @Inject()(val controllerComponents: ControllerCompon
       departmentsDataList => {
         try{        
           val numberOfInserts = departmentsService.createInBatch(departmentsDataList)
-          Ok(okJson(s"All the departments (${numberOfInserts.sum}) have been created successfully."))
+          Created(okJson(s"All the departments (${numberOfInserts.sum}) have been created successfully."))
         }catch{   
           case e : BatchUpdateException => Conflict(postErrorJson(e.getMessage()))
         }         

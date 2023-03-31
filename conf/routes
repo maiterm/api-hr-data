@@ -19,7 +19,7 @@ POST     /api/departments               controllers.DepartmentsController.create
 
 # Employees
 GET     /api/employees/:id              controllers.EmployeesController.getEmployee(id:Int)
-POST     /api/employees/               controllers.EmployeesController.createEmployees
+POST     /api/employees               controllers.EmployeesController.createEmployees
 
 # Backup 
 GET     /api/backup/:tableName              controllers.BackupController.backupFromTableToAvro(tableName:String)

@@ -29,7 +29,7 @@ class JobsController @Inject()(val controllerComponents: ControllerComponents, v
       jobsDataList => {
         try{
           val numberOfInserts = jobsService.createInBatch(jobsDataList)
-          Ok(okJson(s"Jobs created successfully. ${numberOfInserts.sum} is the amount of inserted jobs."))
+          Created(okJson(s"Jobs created successfully. ${numberOfInserts.sum} is the amount of inserted jobs."))
         }catch{
           case e : BatchUpdateException => Conflict(postErrorJson(e.getMessage()))
         }        
